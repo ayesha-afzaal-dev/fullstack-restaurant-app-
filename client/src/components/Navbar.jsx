@@ -14,10 +14,7 @@ function Navbar() {
   return (
     <nav
       className="navbar navbar-expand-lg py-3"
-      style={{
-        backgroundColor: "#F7FAFD",
-        borderBottom: "1px solid rgba(45,59,78,0.08)",
-      }}
+      style={{ backgroundColor: "#F7FAFD", borderBottom: "1px solid rgba(45,59,78,0.08)" }}
     >
       <div className="container d-flex justify-content-between align-items-center">
         <Link
@@ -62,9 +59,22 @@ function Navbar() {
               </Link>
             </li>
 
+            {/* ===== Sirf tab dikhta hai jab koi login ho ===== */}
             {user && (
               <li className="nav-item d-flex align-items-center gap-3">
-                <span style={{ color: "#64748B", fontSize: "0.85rem" }}>Hi, {user.name.split(" ")[0]}</span>
+                {/* Role ke hisab se sirf EK link dikhega, kabhi dono nahi */}
+                {user.role === "admin" ? (
+                  <Link to="/admin" className="nav-link" style={{ color: "#C9A659", fontWeight: 600 }}>
+                    Admin
+                  </Link>
+                ) : (
+                  <Link to="/my-bookings" className="nav-link" style={{ color: "#2D3B4E" }}>
+                    My Bookings
+                  </Link>
+                )}
+
+                {/* <span style={{ color: "#64748B", fontSize: "0.85rem" }}>Hi, {user.name.split(" ")[0]}</span> */}
+
                 <button
                   onClick={handleLogout}
                   className="btn btn-sm rounded-3 px-3"
