@@ -1,76 +1,79 @@
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
 function Navbar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <nav
       className="navbar navbar-expand-lg py-3"
       style={{
-        backgroundColor: "#1C1B18",
-        borderBottom: "1px solid rgba(245,241,232,0.2)",
+        backgroundColor: "#F7FAFD",
+        borderBottom: "1px solid rgba(45,59,78,0.08)",
       }}
     >
       <div className="container d-flex justify-content-between align-items-center">
-        {/* Left Side - Brand Name */}
-        <a
+        <Link
           className="navbar-brand fw-bold fs-3 mb-0"
-          href="/"
-          style={{
-            fontFamily: "Playfair Display, serif",
-            color: "#F4A700",
-            textShadow: "0 0 12px rgba(244,167,0,0.5)",
-          }}
+          to="/"
+          style={{ fontFamily: "Playfair Display, serif", color: "#2D3B4E" }}
         >
-          I <span style={{ color: "#FF4D5A" }}>&#10084;</span> Clouds
-        </a>
+          I <span style={{ color: "#5B89B5" }}>❤</span> Clouds
+        </Link>
 
-        {/* Mobile Toggle Button */}
         <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navMenu"
-          style={{ borderColor: "#F5F1E8" }}
+          style={{ borderColor: "#2D3B4E" }}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Right Side - Nav Links */}
         <div className="collapse navbar-collapse justify-content-end" id="navMenu">
-          <ul
-            className="navbar-nav align-items-lg-center gap-lg-4 gap-2 mt-3 mt-lg-0"
-            style={{ fontFamily: "Poppins, sans-serif" }}
-          >
+          <ul className="navbar-nav align-items-lg-center gap-lg-4 gap-2 mt-3 mt-lg-0" style={{ fontFamily: "Poppins, sans-serif" }}>
             <li className="nav-item">
-              <a className="nav-link" href="#home" style={{ color: "#F5F1E8" }}>
-                Home
-              </a>
+              <Link className="nav-link" to="/" style={{ color: "#2D3B4E" }}>Home</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#menu" style={{ color: "#F5F1E8" }}>
-                Menu
-              </a>
+              <Link className="nav-link" to="/menu" style={{ color: "#2D3B4E" }}>Menu</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#about" style={{ color: "#F5F1E8" }}>
-                About
-              </a>
+              <Link className="nav-link" to="/about" style={{ color: "#2D3B4E" }}>About</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#reservation" style={{ color: "#F5F1E8" }}>
-                Reservation
-              </a>
+              <Link className="nav-link" to="/reservation" style={{ color: "#2D3B4E" }}>Reservation</Link>
             </li>
             <li className="nav-item">
-              <a
+              <Link
                 className="btn rounded-3 px-4"
-                href="#contact"
-                style={{
-                  backgroundColor: "#2E4E3F",
-                  color: "#F4A700",
-                  border: "1px solid #F4A700",
-                }}
+                to="/contact"
+                style={{ backgroundColor: "#EAF1F8", color: "#5B89B5", border: "1px solid #5B89B5" }}
               >
                 Contact
-              </a>
+              </Link>
             </li>
+
+            {user && (
+              <li className="nav-item d-flex align-items-center gap-3">
+                <span style={{ color: "#64748B", fontSize: "0.85rem" }}>Hi, {user.name.split(" ")[0]}</span>
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-sm rounded-3 px-3"
+                  style={{ backgroundColor: "transparent", color: "#C0392B", border: "1px solid rgba(192,57,43,0.4)" }}
+                >
+                  Logout
+                </button>
+              </li>
+            )}
           </ul>
         </div>
       </div>

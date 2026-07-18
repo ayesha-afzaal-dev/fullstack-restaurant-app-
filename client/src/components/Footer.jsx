@@ -1,88 +1,66 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
 function Footer() {
   return (
-    <footer
-      style={{
-        backgroundColor: "#1C1B18",
-        color: "#F5F1E8",
-        borderTop: "1px solid rgba(244,167,0,0.2)",
-        fontFamily: "Poppins, sans-serif",
-      }}
-    >
+    <footer style={{ backgroundColor: "#EAF1F8", color: "#2D3B4E", fontFamily: "Poppins, sans-serif" }}>
       <div className="container py-5">
-        <div className="row gy-4">
-          <div className="col-lg-4 col-md-6">
-            <h3
-              className="fw-bold mb-3"
-              style={{
-                fontFamily: "Playfair Display, serif",
-                color: "#F4A700",
-                textShadow: "0 0 12px rgba(244,167,0,0.4)",
-              }}
-            >
-              I <span style={{ color: "#FF4D5A" }}>&#10084;</span> Clouds
-            </h3>
-            <p style={{ color: "rgba(245,241,232,0.7)", maxWidth: "300px" }}>
-              A cozy corner where warm light meets green calm. Come for the food, stay for the vibe.
+        <div className="row g-4">
+          {/* Brand */}
+          <div className="col-lg-4">
+            <h4 style={{ fontFamily: "Playfair Display, serif", color: "#2D3B4E" }}>
+              I <span style={{ color: "#5B89B5" }}>❤</span> Clouds
+            </h4>
+            <p style={{ color: "#64748B", maxWidth: "300px" }}>
+              A quiet corner where soft light and thoughtfully made food come together.
             </p>
-
-            <div className="d-flex gap-3 mt-3">
-              <a href="#" className="d-flex align-items-center justify-content-center rounded-circle" style={{ width: "38px", height: "38px", backgroundColor: "#2E4E3F", color: "#F4A700", textDecoration: "none", border: "1px solid rgba(244,167,0,0.3)" }}>
-                <i className="bi bi-facebook"></i>
-              </a>
-              <a href="#" className="d-flex align-items-center justify-content-center rounded-circle" style={{ width: "38px", height: "38px", backgroundColor: "#2E4E3F", color: "#F4A700", textDecoration: "none", border: "1px solid rgba(244,167,0,0.3)" }}>
-                <i className="bi bi-instagram"></i>
-              </a>
-              <a href="#" className="d-flex align-items-center justify-content-center rounded-circle" style={{ width: "38px", height: "38px", backgroundColor: "#2E4E3F", color: "#F4A700", textDecoration: "none", border: "1px solid rgba(244,167,0,0.3)" }}>
-                <i className="bi bi-whatsapp"></i>
-              </a>
-            </div>
           </div>
 
-          <div className="col-lg-2 col-md-6">
-            <h6 className="fw-bold mb-3" style={{ color: "#F4A700", letterSpacing: "1px" }}>EXPLORE</h6>
-            <ul className="list-unstyled d-flex flex-column gap-2">
-              <li><a href="#home" style={{ color: "rgba(245,241,232,0.7)", textDecoration: "none" }}>Home</a></li>
-              <li><a href="#menu" style={{ color: "rgba(245,241,232,0.7)", textDecoration: "none" }}>Menu</a></li>
-              <li><a href="#about" style={{ color: "rgba(245,241,232,0.7)", textDecoration: "none" }}>About</a></li>
-              <li><a href="#reservation" style={{ color: "rgba(245,241,232,0.7)", textDecoration: "none" }}>Reservation</a></li>
+          {/* Quick Links */}
+          <div className="col-lg-2 col-6">
+            <h6 style={{ color: "#2D3B4E", letterSpacing: "1px" }}>EXPLORE</h6>
+            <ul className="list-unstyled mt-3">
+              <li className="mb-2"><Link to="/" style={linkStyle}>Home</Link></li>
+              <li className="mb-2"><Link to="/menu" style={linkStyle}>Menu</Link></li>
+              <li className="mb-2"><Link to="/about" style={linkStyle}>About</Link></li>
+              <li className="mb-2"><Link to="/gallery" style={linkStyle}>Gallery</Link></li>
             </ul>
           </div>
 
-          <div className="col-lg-3 col-md-6">
-            <h6 className="fw-bold mb-3" style={{ color: "#F4A700", letterSpacing: "1px" }}>CONTACT</h6>
-            <ul className="list-unstyled d-flex flex-column gap-2" style={{ color: "rgba(245,241,232,0.7)" }}>
-              <li><i className="bi bi-geo-alt-fill me-2" style={{ color: "#F4A700" }}></i>123 Cloud Street, Gujrat, Punjab</li>
-              <li><i className="bi bi-telephone-fill me-2" style={{ color: "#F4A700" }}></i>+92 300 1234567</li>
-              <li><i className="bi bi-envelope-fill me-2" style={{ color: "#F4A700" }}></i>hello@iloveclouds.com</li>
+          {/* Contact */}
+          <div className="col-lg-3 col-6">
+            <h6 style={{ color: "#2D3B4E", letterSpacing: "1px" }}>CONTACT</h6>
+            <ul className="list-unstyled mt-3">
+              <li className="mb-2" style={{ color: "#64748B" }}>123 Garden Street, Karachi</li>
+              <li className="mb-2" style={{ color: "#64748B" }}>+92 300 1234567</li>
+              <li className="mb-2" style={{ color: "#64748B" }}>hello@ihcloudsrestaurant.com</li>
             </ul>
           </div>
 
-          <div className="col-lg-3 col-md-6">
-            <h6 className="fw-bold mb-3" style={{ color: "#F4A700", letterSpacing: "1px" }}>OPENING HOURS</h6>
-            <ul className="list-unstyled d-flex flex-column gap-2" style={{ color: "rgba(245,241,232,0.7)" }}>
-              <li className="d-flex justify-content-between" style={{ maxWidth: "220px" }}>
-                <span>Mon - Fri</span><span>11:00 AM - 11:00 PM</span>
-              </li>
-              <li className="d-flex justify-content-between" style={{ maxWidth: "220px" }}>
-                <span>Sat - Sun</span><span>10:00 AM - 12:00 AM</span>
-              </li>
-            </ul>
+          {/* Hours */}
+          <div className="col-lg-3 col-6">
+            <h6 style={{ color: "#2D3B4E", letterSpacing: "1px" }}>HOURS</h6>
+            <p style={{ color: "#64748B" }} className="mt-3 mb-1">Mon – Sun</p>
+            <p style={{ color: "#2D3B4E", fontWeight: 500 }}>12:00 PM – 11:00 PM</p>
           </div>
         </div>
-      </div>
 
-      <div style={{ borderTop: "1px solid rgba(245,241,232,0.1)" }}>
-        <div className="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-          <p className="mb-0" style={{ color: "rgba(245,241,232,0.5)", fontSize: "0.9rem" }}>
-            &copy; {new Date().getFullYear()} I Love Clouds. All rights reserved.
+        <hr style={{ borderColor: "rgba(91,137,181,0.2)", margin: "32px 0 20px" }} />
+
+        <div className="d-flex justify-content-between flex-wrap gap-2">
+          <p style={{ color: "#94A3B8", fontSize: "0.85rem", marginBottom: 0 }}>
+            © {new Date().getFullYear()} I ❤ Clouds. All rights reserved.
           </p>
-          <p className="mb-0" style={{ color: "rgba(245,241,232,0.5)", fontSize: "0.9rem" }}>
-            Made with <span style={{ color: "#FF4D5A" }}>&#10084;</span> and warm lights
-          </p>
+          <div className="d-flex gap-3">
+            <a href="#" style={{ color: "#5B89B5", fontSize: "0.85rem", textDecoration: "none" }}>Instagram</a>
+            <a href="#" style={{ color: "#5B89B5", fontSize: "0.85rem", textDecoration: "none" }}>Facebook</a>
+          </div>
         </div>
       </div>
     </footer>
   );
 }
+
+const linkStyle = { color: "#64748B", textDecoration: "none", fontSize: "0.95rem" };
 
 export default Footer;
