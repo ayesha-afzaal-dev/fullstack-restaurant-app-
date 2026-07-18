@@ -1,0 +1,33 @@
+.testimonial-card {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-8px) rotateX(4deg) rotateY(-4deg);
+  box-shadow: 0 20px 40px rgba(244, 167, 0, 0.15);
+  border-color: rgba(244, 167, 0, 0.4) !important;
+}
+.nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background-color: #F4A700;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #F4A700 !important;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
