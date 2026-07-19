@@ -53,6 +53,8 @@ function MenuCard({ name, price, desc, image }) {
             onClick={() => addRating(name, star)}
             onMouseEnter={() => setHovered(star)}
             onMouseLeave={() => setHovered(0)}
+             role="button"
+  aria-label={`Rate ${star} star${star > 1 ? "s" : ""}`}
             style={{
               cursor: "pointer",
               color: star <= (hovered || Math.round(average || 0)) ? "#C9A659" : "#CBD5E1",

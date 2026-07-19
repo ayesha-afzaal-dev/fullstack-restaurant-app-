@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 import CloudDecor from "../components/CloudDecor";
 import useScrollReveal from "../hooks/useScrollReveal";
 import PlantDecor from "../components/PlantDecor";
+import usePageTitle from "../hooks/usePageTitle";
+
 
 function Home() {
+  usePageTitle("Home");
   const [heroRef, heroVisible] = useScrollReveal();
 
   return (
-    <div style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif" }}>
+    <div className="page-fade" style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif" }}>
       <section
         className="d-flex align-items-center position-relative"
         style={{

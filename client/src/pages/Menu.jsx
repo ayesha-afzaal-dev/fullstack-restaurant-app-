@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import MenuCard from "../components/MenuCard";
 import PlantDecor from "../components/PlantDecor";
+import usePageTitle from "../hooks/usePageTitle";
+
 
 const menuItems = {
   Starters: [
@@ -28,6 +30,7 @@ const menuItems = {
 const allCategories = ["All", ...Object.keys(menuItems)];
 
 function Menu() {
+   usePageTitle("Menu");
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [maxPrice, setMaxPrice] = useState(30);
@@ -58,7 +61,7 @@ function Menu() {
   const hasResults = Object.keys(filteredMenu).length > 0;
 
   return (
-    <div style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif" }}>
+    <div className="page-fade" style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif" }}>
       <section className="py-5 text-center position-relative" style={{ paddingTop: "100px", overflow: "hidden" }}>
         <PlantDecor position="bottom-left" size={120} opacity={0.3} />
         <span style={{ color: "#5B89B5", fontWeight: 600, letterSpacing: "2px" }}>OUR MENU</span>

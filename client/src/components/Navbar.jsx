@@ -82,6 +82,16 @@ function Navbar() {
                 >
                   Logout
                 </button>
+                <button
+  className="navbar-toggler"
+  type="button"
+  data-bs-toggle="collapse"
+  data-bs-target="#navMenu"
+  aria-label="Toggle navigation menu"
+  style={{ borderColor: "#2D3B4E" }}
+>
+  <span className="navbar-toggler-icon"></span>
+</button>
               </li>
             )}
           </ul>

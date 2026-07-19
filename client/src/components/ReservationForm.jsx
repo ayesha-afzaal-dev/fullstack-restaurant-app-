@@ -41,6 +41,7 @@ function ReservationForm() {
     const available = getAvailableTables(formData.date, formData.time);
     setAvailableTables(available);
     setSelectedTable(null);
+    setJoinedWaitlist(false);
     setStep(2);
   };
 
@@ -75,12 +76,15 @@ function ReservationForm() {
       guests: formData.guests,
     });
     setJoinedWaitlist(true);
-    showToast("Waitlist mein add ho gaye — jaise hi table free hogi, 'My Bookings' pe dikh jayega", "success");
+    showToast("Added to waitlist — check 'My Bookings' for updates", "success");
   };
 
   if (submitted) {
     return (
-      <div className="d-flex flex-column align-items-center justify-content-center text-center" style={{ minHeight: "70vh", backgroundColor: "#F7FAFD", color: "#2D3B4E" }}>
+      <div
+        className="d-flex flex-column align-items-center justify-content-center text-center"
+        style={{ minHeight: "70vh", backgroundColor: "#F7FAFD", color: "#2D3B4E" }}
+      >
         <div style={{ fontSize: "3rem", marginBottom: "10px" }}>☁️</div>
         <h2 style={{ fontFamily: "Playfair Display, serif" }}>Your Table Is Set</h2>
         <p style={{ color: "#64748B" }}>
@@ -89,13 +93,20 @@ function ReservationForm() {
         <p style={{ color: "#C9A659", fontWeight: 600 }}>+10 Loyalty Points Earned 🎉</p>
 
         <div className="d-flex gap-3 mt-4">
-          <button className="btn px-4" style={{ backgroundColor: "#5B89B5", color: "#fff", fontWeight: 600 }} onClick={() => navigate("/my-bookings")}>
+          <button
+            className="btn px-4"
+            style={{ backgroundColor: "#5B89B5", color: "#fff", fontWeight: 600 }}
+            onClick={() => navigate("/my-bookings")}
+          >
             View My Bookings
           </button>
           <button
             className="btn px-4"
             style={{ backgroundColor: "transparent", color: "#C0392B", border: "1px solid rgba(192,57,43,0.4)" }}
-            onClick={() => { logout(); navigate("/signup"); }}
+            onClick={() => {
+              logout();
+              navigate("/signup");
+            }}
           >
             Logout & Use Different Account
           </button>
@@ -106,7 +117,10 @@ function ReservationForm() {
 
   return (
     <div className="d-flex align-items-center justify-content-center py-5" style={{ minHeight: "80vh", backgroundColor: "#F7FAFD" }}>
-      <div className="p-4 rounded-4" style={{ width: "540px", maxWidth: "92%", backgroundColor: "#FFFFFF", border: "1px solid rgba(91,137,181,0.15)" }}>
+      <div
+        className="p-4 rounded-4"
+        style={{ width: "540px", maxWidth: "92%", backgroundColor: "#FFFFFF", border: "1px solid rgba(91,137,181,0.15)" }}
+      >
         <h3 className="mb-4 text-center" style={{ color: "#2D3B4E", fontFamily: "Playfair Display, serif" }}>
           {step === 1 ? "Reserve Your Table" : "Choose Your Table"}
         </h3>
@@ -116,35 +130,96 @@ function ReservationForm() {
             <div className="row g-3">
               <div className="col-12">
                 <label style={{ color: "#64748B", fontSize: "0.85rem" }}>Full Name</label>
-                <input type="text" name="name" required value={formData.name} onChange={handleChange} className="form-control mt-1" style={inputStyle} />
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="form-control mt-1"
+                  style={inputStyle}
+                />
               </div>
+
               <div className="col-12">
                 <label style={{ color: "#64748B", fontSize: "0.85rem" }}>Phone Number</label>
-                <input type="tel" name="phone" required value={formData.phone} onChange={handleChange} className="form-control mt-1" style={inputStyle} placeholder="03XX-XXXXXXX" />
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  pattern="03[0-9]{2}-?[0-9]{7}"
+                  title="Enter a valid Pakistani number, e.g. 0300-1234567"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="form-control mt-1"
+                  style={inputStyle}
+                  placeholder="03XX-XXXXXXX"
+                />
               </div>
+
               <div className="col-6">
                 <label style={{ color: "#64748B", fontSize: "0.85rem" }}>Date</label>
-                <input type="date" name="date" required value={formData.date} onChange={handleChange} className="form-control mt-1" style={inputStyle} min={new Date().toISOString().split("T")[0]} />
+                <input
+                  type="date"
+                  name="date"
+                  required
+                  value={formData.date}
+                  onChange={handleChange}
+                  className="form-control mt-1"
+                  style={inputStyle}
+                  min={new Date().toISOString().split("T")[0]}
+                />
               </div>
+
               <div className="col-6">
                 <label style={{ color: "#64748B", fontSize: "0.85rem" }}>Time</label>
-                <input type="time" name="time" required value={formData.time} onChange={handleChange} className="form-control mt-1" style={inputStyle} />
+                <input
+                  type="time"
+                  name="time"
+                  required
+                  value={formData.time}
+                  onChange={handleChange}
+                  className="form-control mt-1"
+                  style={inputStyle}
+                />
               </div>
+
               <div className="col-12">
                 <label style={{ color: "#64748B", fontSize: "0.85rem" }}>Number of Guests</label>
-                <select name="guests" value={formData.guests} onChange={handleChange} className="form-control mt-1" style={inputStyle}>
+                <select
+                  name="guests"
+                  value={formData.guests}
+                  onChange={handleChange}
+                  className="form-control mt-1"
+                  style={inputStyle}
+                >
                   {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-                    <option key={n} value={n}>{n} {n === 1 ? "Guest" : "Guests"}</option>
+                    <option key={n} value={n}>
+                      {n} {n === 1 ? "Guest" : "Guests"}
+                    </option>
                   ))}
                 </select>
               </div>
+
               <div className="col-12">
                 <label style={{ color: "#64748B", fontSize: "0.85rem" }}>Special Request (optional)</label>
-                <textarea name="notes" rows="2" value={formData.notes} onChange={handleChange} className="form-control mt-1" style={inputStyle}></textarea>
+                <textarea
+                  name="notes"
+                  rows="2"
+                  value={formData.notes}
+                  onChange={handleChange}
+                  className="form-control mt-1"
+                  style={inputStyle}
+                  placeholder="Window seat, birthday celebration, etc."
+                ></textarea>
               </div>
             </div>
 
-            <button type="submit" className="btn w-100 mt-4" style={{ backgroundColor: "#5B89B5", color: "#fff", fontWeight: 600 }}>
+            <button
+              type="submit"
+              className="btn w-100 mt-4"
+              style={{ backgroundColor: "#5B89B5", color: "#fff", fontWeight: 600 }}
+            >
               Check Available Tables
             </button>
           </form>
@@ -154,24 +229,32 @@ function ReservationForm() {
           <div>
             {availableTables.length === 0 ? (
               <div className="text-center py-4">
-                <p style={{ color: "#C0392B" }}>Is date aur time pe koi table available nahi hai.</p>
+                <p style={{ color: "#C0392B" }}>No tables available for this date and time.</p>
 
                 {joinedWaitlist ? (
-                  <p style={{ color: "#5B89B5" }}>Aap waitlist mein add ho chuke hain ✓</p>
+                  <p style={{ color: "#5B89B5" }}>You've been added to the waitlist ✓</p>
                 ) : (
-                  <button className="btn mt-2 me-2" style={{ backgroundColor: "#C9A659", color: "#fff" }} onClick={handleJoinWaitlist}>
+                  <button
+                    className="btn mt-2 me-2"
+                    style={{ backgroundColor: "#C9A659", color: "#fff" }}
+                    onClick={handleJoinWaitlist}
+                  >
                     Join Waitlist
                   </button>
                 )}
 
-                <button className="btn mt-2" style={{ backgroundColor: "#EAF1F8", color: "#5B89B5" }} onClick={() => setStep(1)}>
-                  Different Time Try Karein
+                <button
+                  className="btn mt-2"
+                  style={{ backgroundColor: "#EAF1F8", color: "#5B89B5" }}
+                  onClick={() => setStep(1)}
+                >
+                  Try Different Time
                 </button>
               </div>
             ) : (
               <>
                 <p style={{ color: "#64748B", fontSize: "0.9rem" }} className="mb-3">
-                  Table pe click karke select karo:
+                  Click a table to select it:
                 </p>
 
                 <TableMap
@@ -182,13 +265,21 @@ function ReservationForm() {
                 />
 
                 <div className="d-flex gap-2 mt-4">
-                  <button className="btn flex-fill" style={{ backgroundColor: "#EAF1F8", color: "#5B89B5" }} onClick={() => setStep(1)}>
+                  <button
+                    className="btn flex-fill"
+                    style={{ backgroundColor: "#EAF1F8", color: "#5B89B5" }}
+                    onClick={() => setStep(1)}
+                  >
                     Back
                   </button>
                   <button
                     className="btn flex-fill"
                     disabled={!selectedTable}
-                    style={{ backgroundColor: selectedTable ? "#5B89B5" : "#CBD5E1", color: "#fff", fontWeight: 600 }}
+                    style={{
+                      backgroundColor: selectedTable ? "#5B89B5" : "#CBD5E1",
+                      color: "#fff",
+                      fontWeight: 600,
+                    }}
                     onClick={handleConfirmBooking}
                   >
                     Confirm Table {selectedTable ? selectedTable.number : ""}
@@ -203,6 +294,10 @@ function ReservationForm() {
   );
 }
 
-const inputStyle = { backgroundColor: "#F7FAFD", color: "#2D3B4E", border: "1px solid rgba(91,137,181,0.2)" };
+const inputStyle = {
+  backgroundColor: "#F7FAFD",
+  color: "#2D3B4E",
+  border: "1px solid rgba(91,137,181,0.2)",
+};
 
 export default ReservationForm;

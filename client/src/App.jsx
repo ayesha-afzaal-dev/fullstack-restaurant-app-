@@ -8,8 +8,12 @@ import { ToastProvider } from "./context/ToastContext";
 import { WaitlistProvider } from "./context/WaitlistContext";
 import { LoyaltyProvider } from "./context/LoyaltyContext";
 
+import './index.css';
+import ErrorBoundary from "./components/ErrorBoundary";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
+import ScrollToTopOnNavigate from "./components/ScrollToTopOnNavigate";
 import SplashScreen from "./components/SplashScreen";
 
 import Home from "./pages/Home";
@@ -22,6 +26,8 @@ import Login from "./pages/login";
 import Signup from "./pages/signup";
 import MyBookings from "./pages/MyBookings";
 import AdminDashboard from "./pages/AdminDashboard";
+import NotFound from "./pages/NotFound";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -31,6 +37,7 @@ function App() {
   }
 
   return (
+    <ErrorBoundary>
     <AuthProvider>
       <TableProvider>
         <ReviewProvider>
@@ -38,6 +45,7 @@ function App() {
             <LoyaltyProvider>
               <ToastProvider>
                 <BrowserRouter>
+                  <ScrollToTopOnNavigate />
                   <Navbar />
                   <Routes>
                     <Route path="/" element={<Home />} />
@@ -48,10 +56,17 @@ function App() {
                     <Route path="/reservation" element={<Reservation />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
+                    <Route
+                      path="/forgot-password"
+                      element={<ForgotPassword />}
+                    />
                     <Route path="/my-bookings" element={<MyBookings />} />
                     <Route path="/admin" element={<AdminDashboard />} />
+                    <Route path="*" element={<NotFound />} />
+                    <Route path="*" element={<NotFound />} />
                   </Routes>
                   <Footer />
+                  <ScrollToTop />
                 </BrowserRouter>
               </ToastProvider>
             </LoyaltyProvider>
@@ -59,6 +74,7 @@ function App() {
         </ReviewProvider>
       </TableProvider>
     </AuthProvider>
+    </ErrorBoundary>
   );
 }
 

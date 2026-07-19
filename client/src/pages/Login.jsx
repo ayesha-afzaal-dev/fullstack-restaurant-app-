@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import usePageTitle from "../hooks/usePageTitle";
 
 function Login() {
+  usePageTitle("Login");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,10 +22,7 @@ function Login() {
   };
 
   return (
-    <div
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "80vh", backgroundColor: "#F7FAFD" }}
-    >
+    <div className="page-fade" className="d-flex align-items-center justify-content-center" style={{ minHeight: "80vh", backgroundColor: "#F7FAFD" }}>
       <form
         onSubmit={handleSubmit}
         className="p-4 rounded-4"
@@ -50,15 +50,17 @@ function Login() {
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="form-control mb-3"
+          className="form-control mb-2"
           style={inputStyle}
         />
 
-        <button
-          type="submit"
-          className="btn w-100"
-          style={{ backgroundColor: "#5B89B5", color: "#fff", fontWeight: 600 }}
-        >
+        <div className="text-end mb-3">
+          <Link to="/forgot-password" style={{ color: "#5B89B5", fontSize: "0.8rem" }}>
+            Forgot Password?
+          </Link>
+        </div>
+
+        <button type="submit" className="btn w-100" style={{ backgroundColor: "#5B89B5", color: "#fff", fontWeight: 600 }}>
           Login
         </button>
 

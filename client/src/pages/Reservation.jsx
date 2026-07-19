@@ -2,14 +2,16 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ReservationForm from "../components/ReservationForm";
+import usePageTitle from "../hooks/usePageTitle";
 
 function Reservation() {
+  usePageTitle("Reservation")
   const { user } = useAuth();
   const navigate = useNavigate();
 
   if (!user) {
     return (
-      <div
+      <div className="page-fade"
         className="d-flex flex-column align-items-center justify-content-center text-center"
         style={{ minHeight: "70vh", backgroundColor: "#F7FAFD", color: "#2D3B4E" }}
       >

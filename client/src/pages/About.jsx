@@ -1,12 +1,15 @@
 import React from "react";
 import CloudDecor from "../components/CloudDecor";
 import useScrollReveal from "../hooks/useScrollReveal";
+import usePageTitle from "../hooks/usePageTitle";
+
 
 function About() {
+ usePageTitle("About Us")
   const [storyRef, storyVisible] = useScrollReveal();
 
   return (
-    <div style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif" }}>
+    <div className="page-fade" style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif" }}>
       <section className="py-5 text-center position-relative" style={{ paddingTop: "100px", overflow: "hidden" }}>
         <CloudDecor top="10%" left="8%" size={160} delay="1s" opacity={0.4} />
         <span style={{ color: "#5B89B5", fontWeight: 600, letterSpacing: "2px" }}>OUR STORY</span>

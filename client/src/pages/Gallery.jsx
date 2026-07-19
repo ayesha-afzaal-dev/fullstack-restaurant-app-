@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import usePageTitle from "../hooks/usePageTitle";
 
 const galleryImages = [
   { id: 1, category: "Ambiance" },
@@ -15,6 +16,7 @@ const galleryImages = [
 const categories = ["All", "Ambiance", "Food", "Interior"];
 
 function Gallery() {
+  usePageTitle("Gallery")
   const [activeFilter, setActiveFilter] = useState("All");
 
   const filteredImages =
@@ -23,7 +25,7 @@ function Gallery() {
       : galleryImages.filter((img) => img.category === activeFilter);
 
   return (
-    <div style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif" }}>
+    <div className="page-fade" style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif" }}>
       <section className="py-5 text-center" style={{ paddingTop: "100px" }}>
         <span style={{ color: "#5B89B5", fontWeight: 600, letterSpacing: "2px" }}>GALLERY</span>
         <h1 className="display-4 fw-bold mt-2" style={{ fontFamily: "Playfair Display, serif" }}>

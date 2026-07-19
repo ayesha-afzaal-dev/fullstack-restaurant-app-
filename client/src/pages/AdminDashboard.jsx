@@ -3,8 +3,10 @@ import { Navigate } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useAuth } from "../context/AuthContext";
 import { useTables } from "../context/TableContext";
+import usePageTitle from "../hooks/usePageTitle";
 
 function AdminDashboard() {
+  usePageTitle("Admin Dashboard")
   const { user } = useAuth();
   const { tables, getAllBookings, getUserBookings, cancelBooking, canCancel } = useTables();
 
@@ -29,7 +31,7 @@ function AdminDashboard() {
   };
 
   return (
-    <div style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif", minHeight: "80vh" }}>
+    <div className="page-fade" style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif", minHeight: "80vh" }}>
       <section className="py-5" style={{ paddingTop: "100px" }}>
         <div className="container">
           <h2 className="mb-2" style={{ fontFamily: "Playfair Display, serif" }}>Admin Dashboard</h2>

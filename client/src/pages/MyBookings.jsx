@@ -5,8 +5,10 @@ import { useTables } from "../context/TableContext";
 import { useLoyalty } from "../context/LoyaltyContext";
 import { useWaitlist } from "../context/WaitlistContext";
 import { useToast } from "../context/ToastContext";
+import usePageTitle from "../hooks/usePageTitle";
 
 function MyBookings() {
+  usePageTitle("My Bookings")
   const { user } = useAuth();
   const { getUserBookings, cancelBooking, canCancel } = useTables();
   const { getPoints, getProgress, getRewardsAvailable, redeemReward, REWARD_THRESHOLD } = useLoyalty();
@@ -38,7 +40,7 @@ function MyBookings() {
   };
 
   return (
-    <div style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif", minHeight: "80vh" }}>
+    <div className="page-fade" style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif", minHeight: "80vh" }}>
       <section className="py-5" style={{ paddingTop: "100px" }}>
         <div className="container">
           <h2 className="mb-4" style={{ fontFamily: "Playfair Display, serif" }}>My Bookings</h2>
