@@ -7,8 +7,9 @@ function TableMap({ tables, availableTableIds, selectedTable, onSelect }) {
       style={{
         backgroundColor: "#EAF1F8",
         border: "1px solid rgba(91,137,181,0.2)",
-        height: "320px",
+        height: "280px",
         overflow: "hidden",
+        position: "relative",
       }}
     >
       <span
@@ -45,16 +46,36 @@ function TableMap({ tables, availableTableIds, selectedTable, onSelect }) {
               alignItems: "center",
               justifyContent: "center",
               cursor: isAvailable ? "pointer" : "not-allowed",
-              backgroundColor: isSelected ? "#5B89B5" : isAvailable ? "#FFFFFF" : "#FEECEC",
+              backgroundColor: isSelected
+                ? "#5B89B5"
+                : isAvailable
+                  ? "#FFFFFF"
+                  : "#FEECEC",
               border: `2px solid ${isSelected ? "#5B89B5" : isAvailable ? "rgba(91,137,181,0.3)" : "rgba(192,57,43,0.3)"}`,
               transition: "all 0.25s ease",
-              boxShadow: isSelected ? "0 8px 16px rgba(91,137,181,0.3)" : "none",
+              boxShadow: isSelected
+                ? "0 8px 16px rgba(91,137,181,0.3)"
+                : "none",
             }}
           >
-            <strong style={{ fontSize: "0.85rem", color: isSelected ? "#fff" : "#2D3B4E" }}>
+            <strong
+              style={{
+                fontSize: "0.85rem",
+                color: isSelected ? "#fff" : "#2D3B4E",
+              }}
+            >
               T{table.number}
             </strong>
-            <span style={{ fontSize: "0.65rem", color: isSelected ? "#fff" : isAvailable ? "#5B89B5" : "#C0392B" }}>
+            <span
+              style={{
+                fontSize: "0.65rem",
+                color: isSelected
+                  ? "#fff"
+                  : isAvailable
+                    ? "#5B89B5"
+                    : "#C0392B",
+              }}
+            >
               {isAvailable ? "Free" : "Booked"}
             </span>
           </div>

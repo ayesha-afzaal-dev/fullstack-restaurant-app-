@@ -62,7 +62,10 @@ function ReservationForm() {
       colors: ["#5B89B5", "#C9A659", "#EAF1F8"],
     });
 
-    showToast(`Table ${selectedTable.number} reserved! +10 loyalty points earned`, "success");
+    showToast(
+      `Table ${selectedTable.number} reserved! +10 loyalty points earned`,
+      "success",
+    );
     setSubmitted(true);
   };
 
@@ -83,26 +86,43 @@ function ReservationForm() {
     return (
       <div
         className="d-flex flex-column align-items-center justify-content-center text-center"
-        style={{ minHeight: "70vh", backgroundColor: "#F7FAFD", color: "#2D3B4E" }}
+        style={{
+          minHeight: "70vh",
+          backgroundColor: "#F7FAFD",
+          color: "#2D3B4E",
+        }}
       >
         <div style={{ fontSize: "3rem", marginBottom: "10px" }}>☁️</div>
-        <h2 style={{ fontFamily: "Playfair Display, serif" }}>Your Table Is Set</h2>
+        <h2 style={{ fontFamily: "Playfair Display, serif" }}>
+          Your Table Is Set
+        </h2>
         <p style={{ color: "#64748B" }}>
-          Table {selectedTable.number} ({selectedTable.location}) reserved for {formData.date} at {formData.time}.
+          Table {selectedTable.number} ({selectedTable.location}) reserved for{" "}
+          {formData.date} at {formData.time}.
         </p>
-        <p style={{ color: "#C9A659", fontWeight: 600 }}>+10 Loyalty Points Earned 🎉</p>
+        <p style={{ color: "#C9A659", fontWeight: 600 }}>
+          +10 Loyalty Points Earned 🎉
+        </p>
 
         <div className="d-flex gap-3 mt-4">
           <button
             className="btn px-4"
-            style={{ backgroundColor: "#5B89B5", color: "#fff", fontWeight: 600 }}
+            style={{
+              backgroundColor: "#5B89B5",
+              color: "#fff",
+              fontWeight: 600,
+            }}
             onClick={() => navigate("/my-bookings")}
           >
             View My Bookings
           </button>
           <button
             className="btn px-4"
-            style={{ backgroundColor: "transparent", color: "#C0392B", border: "1px solid rgba(192,57,43,0.4)" }}
+            style={{
+              backgroundColor: "transparent",
+              color: "#C0392B",
+              border: "1px solid rgba(192,57,43,0.4)",
+            }}
             onClick={() => {
               logout();
               navigate("/signup");
@@ -116,12 +136,23 @@ function ReservationForm() {
   }
 
   return (
-    <div className="d-flex align-items-center justify-content-center py-5" style={{ minHeight: "80vh", backgroundColor: "#F7FAFD" }}>
+    <div
+      className="d-flex align-items-center justify-content-center py-4 py-md-5 px-3"
+      style={{ minHeight: "80vh", backgroundColor: "#F7FAFD" }}
+    >
       <div
-        className="p-4 rounded-4"
-        style={{ width: "540px", maxWidth: "92%", backgroundColor: "#FFFFFF", border: "1px solid rgba(91,137,181,0.15)" }}
+        className="p-3 p-md-4 rounded-4"
+        style={{
+          width: "540px",
+          maxWidth: "100%",
+          backgroundColor: "#FFFFFF",
+          border: "1px solid rgba(91,137,181,0.15)",
+        }}
       >
-        <h3 className="mb-4 text-center" style={{ color: "#2D3B4E", fontFamily: "Playfair Display, serif" }}>
+        <h3
+          className="mb-4 text-center"
+          style={{ color: "#2D3B4E", fontFamily: "Playfair Display, serif" }}
+        >
           {step === 1 ? "Reserve Your Table" : "Choose Your Table"}
         </h3>
 
@@ -129,7 +160,9 @@ function ReservationForm() {
           <form onSubmit={handleCheckAvailability}>
             <div className="row g-3">
               <div className="col-12">
-                <label style={{ color: "#64748B", fontSize: "0.85rem" }}>Full Name</label>
+                <label style={{ color: "#64748B", fontSize: "0.85rem" }}>
+                  Full Name
+                </label>
                 <input
                   type="text"
                   name="name"
@@ -142,7 +175,9 @@ function ReservationForm() {
               </div>
 
               <div className="col-12">
-                <label style={{ color: "#64748B", fontSize: "0.85rem" }}>Phone Number</label>
+                <label style={{ color: "#64748B", fontSize: "0.85rem" }}>
+                  Phone Number
+                </label>
                 <input
                   type="tel"
                   name="phone"
@@ -158,7 +193,9 @@ function ReservationForm() {
               </div>
 
               <div className="col-6">
-                <label style={{ color: "#64748B", fontSize: "0.85rem" }}>Date</label>
+                <label style={{ color: "#64748B", fontSize: "0.85rem" }}>
+                  Date
+                </label>
                 <input
                   type="date"
                   name="date"
@@ -172,7 +209,9 @@ function ReservationForm() {
               </div>
 
               <div className="col-6">
-                <label style={{ color: "#64748B", fontSize: "0.85rem" }}>Time</label>
+                <label style={{ color: "#64748B", fontSize: "0.85rem" }}>
+                  Time
+                </label>
                 <input
                   type="time"
                   name="time"
@@ -185,7 +224,9 @@ function ReservationForm() {
               </div>
 
               <div className="col-12">
-                <label style={{ color: "#64748B", fontSize: "0.85rem" }}>Number of Guests</label>
+                <label style={{ color: "#64748B", fontSize: "0.85rem" }}>
+                  Number of Guests
+                </label>
                 <select
                   name="guests"
                   value={formData.guests}
@@ -202,7 +243,9 @@ function ReservationForm() {
               </div>
 
               <div className="col-12">
-                <label style={{ color: "#64748B", fontSize: "0.85rem" }}>Special Request (optional)</label>
+                <label style={{ color: "#64748B", fontSize: "0.85rem" }}>
+                  Special Request (optional)
+                </label>
                 <textarea
                   name="notes"
                   rows="2"
@@ -218,7 +261,11 @@ function ReservationForm() {
             <button
               type="submit"
               className="btn w-100 mt-4"
-              style={{ backgroundColor: "#5B89B5", color: "#fff", fontWeight: 600 }}
+              style={{
+                backgroundColor: "#5B89B5",
+                color: "#fff",
+                fontWeight: 600,
+              }}
             >
               Check Available Tables
             </button>
@@ -229,10 +276,14 @@ function ReservationForm() {
           <div>
             {availableTables.length === 0 ? (
               <div className="text-center py-4">
-                <p style={{ color: "#C0392B" }}>No tables available for this date and time.</p>
+                <p style={{ color: "#C0392B" }}>
+                  No tables available for this date and time.
+                </p>
 
                 {joinedWaitlist ? (
-                  <p style={{ color: "#5B89B5" }}>You've been added to the waitlist ✓</p>
+                  <p style={{ color: "#5B89B5" }}>
+                    You've been added to the waitlist ✓
+                  </p>
                 ) : (
                   <button
                     className="btn mt-2 me-2"
@@ -253,7 +304,10 @@ function ReservationForm() {
               </div>
             ) : (
               <>
-                <p style={{ color: "#64748B", fontSize: "0.9rem" }} className="mb-3">
+                <p
+                  style={{ color: "#64748B", fontSize: "0.9rem" }}
+                  className="mb-3"
+                >
                   Click a table to select it:
                 </p>
 

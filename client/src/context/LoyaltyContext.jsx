@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 const LoyaltyContext = createContext();
 
 const POINTS_PER_BOOKING = 10;
-const REWARD_THRESHOLD = 50; // 50 points = 1 free dessert
+const REWARD_THRESHOLD = 50; 
 
 export function LoyaltyProvider({ children }) {
   const [points, setPoints] = useState({});

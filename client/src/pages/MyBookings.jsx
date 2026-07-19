@@ -113,7 +113,7 @@ function MyBookings() {
           ) : (
             <div className="row g-4">
               {myBookings.map((booking) => (
-                <div className="col-md-6 col-lg-4" key={booking.id}>
+                <div className="col-12 col-md-6 col-lg-4" key={booking.id}>
                   <div className="rounded-4 p-4 h-100" style={{ backgroundColor: "#FFFFFF", border: "1px solid rgba(91,137,181,0.15)" }}>
                     <h5 style={{ fontFamily: "Playfair Display, serif" }}>Table {booking.tableNumber}</h5>
                     <p className="mb-1" style={{ color: "#64748B" }}>📅 {booking.date} at {booking.time}</p>

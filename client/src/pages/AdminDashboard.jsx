@@ -38,7 +38,7 @@ function AdminDashboard() {
           <p style={{ color: "#64748B" }} className="mb-4">Restaurant ki saari tables aur bookings ka overview</p>
 
           <div className="row g-3 mb-5">
-            <div className="col-md-4">
+            <div className="col-12 col-md-4">
               <div className="rounded-4 p-4" style={{ backgroundColor: "#FFFFFF", border: "1px solid rgba(91,137,181,0.15)" }}>
                 <p style={{ color: "#94A3B8", fontSize: "0.85rem" }}>TOTAL TABLES</p>
                 <h2 style={{ color: "#2D3B4E", fontFamily: "Playfair Display, serif" }}>{tables.length}</h2>

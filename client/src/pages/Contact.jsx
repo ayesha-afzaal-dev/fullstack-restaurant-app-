@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import usePageTitle from "../hooks/usePageTitle";
 
 function Contact() {
-  usePageTitle("Contact")
+  usePageTitle("Contact");
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
 
@@ -13,51 +13,50 @@ function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Contact form submitted:", formData);
     setSent(true);
   };
 
   return (
-    <div className="page-fade" style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif" }}>
+    <div className="page-fade" style={{ backgroundColor: "#F7FAFD", color: "#2D3B4E", fontFamily: "Poppins, sans-serif", overflowX: "hidden" }}>
       <section className="py-5 text-center" style={{ paddingTop: "100px" }}>
-        <span style={{ color: "#5B89B5", fontWeight: 600, letterSpacing: "2px" }}>GET IN TOUCH</span>
-        <h1 className="display-4 fw-bold mt-2" style={{ fontFamily: "Playfair Display, serif" }}>
+        <span style={{ color: "#5B89B5", fontWeight: 600, letterSpacing: "2px", fontSize: "0.85rem" }}>GET IN TOUCH</span>
+        <h1 className="fw-bold mt-2 px-3" style={{ fontFamily: "Playfair Display, serif", fontSize: "clamp(1.6rem, 4vw, 2.8rem)" }}>
           We'd Love to Hear From You
         </h1>
-        <p style={{ color: "#64748B", maxWidth: "550px" }} className="mx-auto mt-2">
+        <p style={{ color: "#64748B", maxWidth: "550px", fontSize: "0.95rem" }} className="mx-auto mt-2 px-3">
           Questions, feedback, or a private event — reach out anytime.
         </p>
       </section>
 
-      <section className="py-5">
+      <section className="py-4">
         <div className="container pb-5">
-          <div className="row g-5">
-            <div className="col-lg-5">
-              <h3 className="mb-4" style={{ fontFamily: "Playfair Display, serif", color: "#5B89B5" }}>Visit Us</h3>
+          <div className="row g-4 g-lg-5">
+            <div className="col-12 col-lg-5">
+              <h3 className="mb-4" style={{ fontFamily: "Playfair Display, serif", color: "#5B89B5", fontSize: "1.4rem" }}>Visit Us</h3>
 
               <div className="mb-4">
-                <p style={{ color: "#94A3B8", fontSize: "0.85rem", letterSpacing: "1px" }}>ADDRESS</p>
-                <p style={{ color: "#2D3B4E" }}>123 Garden Street, Karachi, Pakistan</p>
+                <p style={{ color: "#94A3B8", fontSize: "0.8rem", letterSpacing: "1px" }}>ADDRESS</p>
+                <p style={{ color: "#2D3B4E", fontSize: "0.95rem" }}>123 Garden Street, Karachi, Pakistan</p>
               </div>
               <div className="mb-4">
-                <p style={{ color: "#94A3B8", fontSize: "0.85rem", letterSpacing: "1px" }}>PHONE</p>
-                <p style={{ color: "#2D3B4E" }}>+92 300 1234567</p>
+                <p style={{ color: "#94A3B8", fontSize: "0.8rem", letterSpacing: "1px" }}>PHONE</p>
+                <p style={{ color: "#2D3B4E", fontSize: "0.95rem" }}>+92 300 1234567</p>
               </div>
               <div className="mb-4">
-                <p style={{ color: "#94A3B8", fontSize: "0.85rem", letterSpacing: "1px" }}>EMAIL</p>
-                <p style={{ color: "#2D3B4E" }}>hello@ihcloudsrestaurant.com</p>
+                <p style={{ color: "#94A3B8", fontSize: "0.8rem", letterSpacing: "1px" }}>EMAIL</p>
+                <p style={{ color: "#2D3B4E", fontSize: "0.95rem" }}>hello@ihcloudsrestaurant.com</p>
               </div>
               <div className="mb-4">
-                <p style={{ color: "#94A3B8", fontSize: "0.85rem", letterSpacing: "1px" }}>OPENING HOURS</p>
-                <p style={{ color: "#2D3B4E" }}>Mon – Sun: 12:00 PM – 11:00 PM</p>
+                <p style={{ color: "#94A3B8", fontSize: "0.8rem", letterSpacing: "1px" }}>OPENING HOURS</p>
+                <p style={{ color: "#2D3B4E", fontSize: "0.95rem" }}>Mon – Sun: 12:00 PM – 11:00 PM</p>
               </div>
 
-              <div className="rounded-4 mt-4" style={{ height: "220px", backgroundColor: "#EAF1F8", border: "1px solid rgba(91,137,181,0.2)" }}></div>
+              <div className="rounded-4 mt-4" style={{ height: "180px", backgroundColor: "#EAF1F8", border: "1px solid rgba(91,137,181,0.2)" }}></div>
             </div>
 
-            <div className="col-lg-7">
+            <div className="col-12 col-lg-7">
               {sent ? (
-                <div className="d-flex flex-column align-items-center justify-content-center text-center rounded-4 p-5 h-100" style={{ backgroundColor: "#EAF1F8", border: "1px solid rgba(91,137,181,0.2)" }}>
+                <div className="d-flex flex-column align-items-center justify-content-center text-center rounded-4 p-4 p-md-5 h-100" style={{ backgroundColor: "#EAF1F8", border: "1px solid rgba(91,137,181,0.2)" }}>
                   <div style={{ fontSize: "2.5rem", marginBottom: "10px" }}>✉️</div>
                   <h4 style={{ fontFamily: "Playfair Display, serif" }}>Message Sent</h4>
                   <p style={{ color: "#64748B" }}>Thank you, {formData.name} — we'll be in touch soon.</p>

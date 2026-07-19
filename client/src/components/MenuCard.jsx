@@ -37,7 +37,10 @@ function MenuCard({ name, price, desc, image }) {
       ></div>
 
       <div className="d-flex justify-content-between align-items-start mb-2">
-        <h5 className="mb-0" style={{ fontFamily: "Playfair Display, serif", color: "#2D3B4E" }}>
+        <h5
+          className="mb-0"
+          style={{ fontFamily: "Playfair Display, serif", color: "#2D3B4E" }}
+        >
           {name}
         </h5>
         <span style={{ color: "#C9A659", fontWeight: 700 }}>{price}</span>
@@ -53,11 +56,14 @@ function MenuCard({ name, price, desc, image }) {
             onClick={() => addRating(name, star)}
             onMouseEnter={() => setHovered(star)}
             onMouseLeave={() => setHovered(0)}
-             role="button"
-  aria-label={`Rate ${star} star${star > 1 ? "s" : ""}`}
+            role="button"
+            aria-label={`Rate ${star} star${star > 1 ? "s" : ""}`}
             style={{
               cursor: "pointer",
-              color: star <= (hovered || Math.round(average || 0)) ? "#C9A659" : "#CBD5E1",
+              color:
+                star <= (hovered || Math.round(average || 0))
+                  ? "#C9A659"
+                  : "#CBD5E1",
               fontSize: "1.1rem",
               transition: "color 0.15s ease",
             }}
@@ -65,7 +71,9 @@ function MenuCard({ name, price, desc, image }) {
             ★
           </span>
         ))}
-        <span style={{ color: "#94A3B8", fontSize: "0.75rem", marginLeft: "6px" }}>
+        <span
+          style={{ color: "#94A3B8", fontSize: "0.75rem", marginLeft: "6px" }}
+        >
           {average ? `${average} (${count})` : "No ratings yet"}
         </span>
       </div>
