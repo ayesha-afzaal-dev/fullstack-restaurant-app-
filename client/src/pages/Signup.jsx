@@ -18,8 +18,7 @@ function Signup() {
   const redirectTo = location.state?.from || "/";
 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -38,13 +37,7 @@ function Signup() {
       return;
     }
 
-    const existingUser = localStorage.getItem(`user_${email}`);
-    if (existingUser) {
-      setError("An account with this email already exists. Please login instead.");
-      return;
-    }
-
-    const result = signup(name, email, password);
+    const result = await signup(name, email, password);
     if (result.success) {
       navigate(redirectTo);
     } else {
@@ -53,17 +46,30 @@ function Signup() {
   };
 
   return (
-    <div className="page-fade" className="d-flex align-items-center justify-content-center" style={{ minHeight: "80vh", backgroundColor: "#F7FAFD" }}>
+    <div
+      className="page-fade"
+      className="d-flex align-items-center justify-content-center"
+      style={{ minHeight: "80vh", backgroundColor: "#F7FAFD" }}
+    >
       <form
         onSubmit={handleSubmit}
         className="p-4 rounded-4"
-        style={{ width: "360px", backgroundColor: "#FFFFFF", border: "1px solid rgba(91,137,181,0.15)" }}
+        style={{
+          width: "360px",
+          backgroundColor: "#FFFFFF",
+          border: "1px solid rgba(91,137,181,0.15)",
+        }}
       >
-        <h3 className="mb-4 text-center" style={{ color: "#2D3B4E", fontFamily: "Playfair Display, serif" }}>
+        <h3
+          className="mb-4 text-center"
+          style={{ color: "#2D3B4E", fontFamily: "Playfair Display, serif" }}
+        >
           Create Your Account
         </h3>
 
-        {error && <p style={{ color: "#C0392B", fontSize: "0.85rem" }}>{error}</p>}
+        {error && (
+          <p style={{ color: "#C0392B", fontSize: "0.85rem" }}>{error}</p>
+        )}
 
         <input
           type="text"
@@ -105,12 +111,22 @@ function Signup() {
           style={inputStyle}
         />
 
-        <button type="submit" className="btn w-100" style={{ backgroundColor: "#5B89B5", color: "#fff", fontWeight: 600 }}>
+        <button
+          type="submit"
+          className="btn w-100"
+          style={{ backgroundColor: "#5B89B5", color: "#fff", fontWeight: 600 }}
+        >
           Create Account
         </button>
 
-        <p className="text-center mt-3" style={{ color: "#64748B", fontSize: "0.9rem" }}>
-          Already with us? <Link to="/login" style={{ color: "#5B89B5" }}>Login</Link>
+        <p
+          className="text-center mt-3"
+          style={{ color: "#64748B", fontSize: "0.9rem" }}
+        >
+          Already with us?{" "}
+          <Link to="/login" style={{ color: "#5B89B5" }}>
+            Login
+          </Link>
         </p>
       </form>
     </div>

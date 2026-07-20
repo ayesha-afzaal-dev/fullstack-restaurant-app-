@@ -1,35 +1,52 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
+import { API_URL } from "../config";
 
 const ReviewContext = createContext();
 
 export function ReviewProvider({ children }) {
-  const [reviews, setReviews] = useState({});
+  const [reviewCache, setReviewCache] = useState({});
 
-  useEffect(() => {
-    const saved = localStorage.getItem("clouds_reviews");
-    if (saved) setReviews(JSON.parse(saved));
-  }, []);
+  const fetchDishReviews = async (dishName) => {
+    try {
+      const res = await fetch(`${API_URL}/reviews/${encodeURIComponent(dishName)}`);
+      const data = await res.json();
+      setReviewCache((prev) => ({ ...prev, [dishName]: data }));
+      return data;
+    } catch (error) {
+      console.error("Failed to fetch reviews:", error);
+      return { average: null, count: 0 };
+    }
+  };
 
-  const addRating = (dishName, rating) => {
-    const existing = reviews[dishName] || { total: 0, count: 0 };
-    const updated = {
-      ...reviews,
-      [dishName]: { total: existing.total + rating, count: existing.count + 1 },
-    };
-    setReviews(updated);
-    localStorage.setItem("clouds_reviews", JSON.stringify(updated));
+  const addRating = async (dishName, rating, userId) => {
+    try {
+      const res = await fetch(`${API_URL}/reviews`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dishName, rating, userId }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        await fetchDishReviews(dishName);
+      }
+    } catch (error) {
+      console.error("Failed to add rating:", error);
+    }
   };
 
   const getAverage = (dishName) => {
-    const data = reviews[dishName];
-    if (!data || data.count === 0) return null;
-    return (data.total / data.count).toFixed(1);
+    const data = reviewCache[dishName];
+    return data?.average ?? null;
   };
 
-  const getCount = (dishName) => reviews[dishName]?.count || 0;
+  const getCount = (dishName) => {
+    const data = reviewCache[dishName];
+    return data?.count || 0;
+  };
 
   return (
-    <ReviewContext.Provider value={{ addRating, getAverage, getCount }}>
+    <ReviewContext.Provider value={{ addRating, getAverage, getCount, fetchDishReviews }}>
       {children}
     </ReviewContext.Provider>
   );

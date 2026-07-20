@@ -1,49 +1,70 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
+import { API_URL } from "../config";
 
 const LoyaltyContext = createContext();
 
+const REWARD_THRESHOLD = 50;
 const POINTS_PER_BOOKING = 10;
-const REWARD_THRESHOLD = 50; 
 
 export function LoyaltyProvider({ children }) {
-  const [points, setPoints] = useState({});
+  const [pointsData, setPointsData] = useState({});
 
-  useEffect(() => {
-    const saved = localStorage.getItem("clouds_loyalty");
-    if (saved) setPoints(JSON.parse(saved));
-  }, []);
-
-  const save = (updated) => {
-    setPoints(updated);
-    localStorage.setItem("clouds_loyalty", JSON.stringify(updated));
-  };
-
-  const addPoints = (email) => {
-    const current = points[email] || 0;
-    save({ ...points, [email]: current + POINTS_PER_BOOKING });
-  };
-
-  const getPoints = (email) => points[email] || 0;
-
-  const getProgress = (email) => {
-    const current = getPoints(email);
-    return Math.min((current % REWARD_THRESHOLD) / REWARD_THRESHOLD * 100, 100);
-  };
-
-  const getRewardsAvailable = (email) => Math.floor(getPoints(email) / REWARD_THRESHOLD);
-
-  const redeemReward = (email) => {
-    const current = points[email] || 0;
-    if (current >= REWARD_THRESHOLD) {
-      save({ ...points, [email]: current - REWARD_THRESHOLD });
-      return true;
+  const fetchPoints = async (userId) => {
+    try {
+      const res = await fetch(`${API_URL}/loyalty/${userId}`);
+      const data = await res.json();
+      setPointsData((prev) => ({ ...prev, [userId]: data.points }));
+      return data.points;
+    } catch (error) {
+      console.error("Failed to fetch loyalty points:", error);
+      return 0;
     }
-    return false;
+  };
+
+  const addPoints = async (userId) => {
+    try {
+      const res = await fetch(`${API_URL}/loyalty/${userId}/add`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ points: POINTS_PER_BOOKING }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPointsData((prev) => ({ ...prev, [userId]: data.loyalty.points }));
+      }
+    } catch (error) {
+      console.error("Failed to add points:", error);
+    }
+  };
+
+  const getPoints = (userId) => pointsData[userId] || 0;
+
+  const getProgress = (userId) => {
+    const current = getPoints(userId);
+    return Math.min(((current % REWARD_THRESHOLD) / REWARD_THRESHOLD) * 100, 100);
+  };
+
+  const getRewardsAvailable = (userId) => Math.floor(getPoints(userId) / REWARD_THRESHOLD);
+
+  const redeemReward = async (userId) => {
+    try {
+      const res = await fetch(`${API_URL}/loyalty/${userId}/redeem`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPointsData((prev) => ({ ...prev, [userId]: data.loyalty.points }));
+        return true;
+      }
+      return false;
+    } catch (error) {
+      return false;
+    }
   };
 
   return (
     <LoyaltyContext.Provider
-      value={{ addPoints, getPoints, getProgress, getRewardsAvailable, redeemReward, POINTS_PER_BOOKING, REWARD_THRESHOLD }}
+      value={{ addPoints, getPoints, getProgress, getRewardsAvailable, redeemReward, fetchPoints, REWARD_THRESHOLD }}
     >
       {children}
     </LoyaltyContext.Provider>

@@ -1,13 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useReviews } from "../context/ReviewContext";
+import { useAuth } from "../context/AuthContext";
 
 function MenuCard({ name, price, desc, image }) {
-  const { addRating, getAverage, getCount } = useReviews();
+  const { addRating, getAverage, getCount, fetchDishReviews } = useReviews();
+  const { user } = useAuth();
   const [hovered, setHovered] = useState(0);
+
+  useEffect(() => {
+    fetchDishReviews(name);
+  }, [name]);
 
   const average = getAverage(name);
   const count = getCount(name);
 
+  const handleRate = (star) => {
+    if (!user) return;
+    addRating(name, star, user.id);
+  };
+
+  
   return (
     <div
       className="rounded-4 p-4 h-100"

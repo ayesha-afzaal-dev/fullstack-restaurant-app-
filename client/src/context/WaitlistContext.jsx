@@ -1,52 +1,78 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { API_URL } from "../config";
 
 const WaitlistContext = createContext();
 
 export function WaitlistProvider({ children }) {
   const [waitlist, setWaitlist] = useState([]);
 
-  useEffect(() => {
-    const saved = localStorage.getItem("clouds_waitlist");
-    if (saved) setWaitlist(JSON.parse(saved));
-  }, []);
-
-  const save = (updated) => {
-    setWaitlist(updated);
-    localStorage.setItem("clouds_waitlist", JSON.stringify(updated));
+  const fetchUserWaitlist = async (userId) => {
+    try {
+      const res = await fetch(`${API_URL}/waitlist/user/${userId}`);
+      const data = await res.json();
+      setWaitlist(data);
+      return data;
+    } catch (error) {
+      console.error("Failed to fetch waitlist:", error);
+      return [];
+    }
   };
 
-  const joinWaitlist = (entry) => {
-    const newEntry = {
-      id: `W${Date.now()}`,
-      ...entry,
-      status: "waiting", // waiting -> table_available -> cancelled
-      createdAt: new Date().toISOString(),
-    };
-    save([...waitlist, newEntry]);
-    return newEntry;
+  const joinWaitlist = async (entry) => {
+    try {
+      const res = await fetch(`${API_URL}/waitlist`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: entry.userId,
+          name: entry.name,
+          phone: entry.phone,
+          date: entry.date,
+          time: entry.time,
+          guests: entry.guests,
+        }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        await fetchUserWaitlist(entry.userId);
+      }
+      return data;
+    } catch (error) {
+      return { success: false, message: "Could not connect to server." };
+    }
   };
 
-  const getUserWaitlist = (email) =>
-    waitlist.filter((w) => w.email === email && w.status !== "cancelled");
-
-  // Jab kisi date/time ki table cancel ho, uss slot ke waitlist walon ko "available" mark karna
-  const notifyWaitlistForSlot = (date, time) => {
-    const updated = waitlist.map((w) =>
-      w.date === date && w.time === time && w.status === "waiting"
-        ? { ...w, status: "table_available" }
-        : w
-    );
-    save(updated);
+  const getUserWaitlist = (userId) => {
+    return waitlist.filter((w) => w.userId === userId && w.status !== "cancelled");
   };
 
-  const removeFromWaitlist = (id) => {
-    const updated = waitlist.map((w) => (w.id === id ? { ...w, status: "cancelled" } : w));
-    save(updated);
+  const notifyWaitlistForSlot = async (date, time) => {
+    try {
+      await fetch(`${API_URL}/waitlist/notify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ date, time }),
+      });
+    } catch (error) {
+      console.error("Failed to notify waitlist:", error);
+    }
+  };
+
+  const removeFromWaitlist = async (waitlistId, userId) => {
+    try {
+      await fetch(`${API_URL}/waitlist/${waitlistId}/cancel`, {
+        method: "PATCH",
+      });
+      await fetchUserWaitlist(userId);
+    } catch (error) {
+      console.error("Failed to remove from waitlist:", error);
+    }
   };
 
   return (
     <WaitlistContext.Provider
-      value={{ waitlist, joinWaitlist, getUserWaitlist, notifyWaitlistForSlot, removeFromWaitlist }}
+      value={{ waitlist, joinWaitlist, getUserWaitlist, notifyWaitlistForSlot, removeFromWaitlist, fetchUserWaitlist }}
     >
       {children}
     </WaitlistContext.Provider>

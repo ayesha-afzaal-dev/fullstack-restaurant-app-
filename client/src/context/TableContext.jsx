@@ -1,58 +1,114 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { API_URL } from "../config";
 
 const TableContext = createContext();
 
-const DEFAULT_TABLES = [
-  { id: "T1", number: 1, capacity: 2, location: "Window Side", x: 15, y: 20 },
-  { id: "T2", number: 2, capacity: 2, location: "Window Side", x: 15, y: 60 },
-  { id: "T3", number: 3, capacity: 4, location: "Main Hall", x: 45, y: 25 },
-  { id: "T4", number: 4, capacity: 4, location: "Main Hall", x: 45, y: 65 },
-  { id: "T5", number: 5, capacity: 6, location: "Garden Area", x: 75, y: 20 },
-  { id: "T6", number: 6, capacity: 8, location: "Private Corner", x: 75, y: 65 },
-];
-
 export function TableProvider({ children }) {
-  const [tables] = useState(DEFAULT_TABLES);
+  const [tables, setTables] = useState([]);
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    const saved = localStorage.getItem("clouds_bookings");
-    if (saved) setBookings(JSON.parse(saved));
+    fetchTables();
+    fetchAllBookings();
   }, []);
 
-  const saveBookings = (updated) => {
-    setBookings(updated);
-    localStorage.setItem("clouds_bookings", JSON.stringify(updated));
+  const fetchTables = async () => {
+    try {
+      const res = await fetch(`${API_URL}/tables`);
+      const data = await res.json();
+
+      const positions = [
+        { x: 15, y: 20 },
+        { x: 15, y: 60 },
+        { x: 45, y: 25 },
+        { x: 45, y: 65 },
+        { x: 75, y: 20 },
+        { x: 75, y: 65 },
+      ];
+
+      const tablesWithPosition = data.map((t, i) => ({
+        ...t,
+        x: positions[i]?.x || 50,
+        y: positions[i]?.y || 50,
+      }));
+
+      setTables(tablesWithPosition);
+    } catch (error) {
+      console.error("Failed to fetch tables:", error);
+    }
   };
 
-  // Kisi specific date+time pe kaunsi tables khaali hain
-  const getAvailableTables = (date, time) => {
-    const bookedTableIds = bookings
-      .filter((b) => b.date === date && b.time === time && b.status === "confirmed")
-      .map((b) => b.tableId);
-
-    return tables.filter((t) => !bookedTableIds.includes(t.id));
+  const fetchAllBookings = async () => {
+    try {
+      const res = await fetch(`${API_URL}/bookings`);
+      const data = await res.json();
+      setBookings(data);
+    } catch (error) {
+      console.error("Failed to fetch bookings:", error);
+    }
   };
 
-  const createBooking = (bookingData) => {
-    const newBooking = {
-      id: `B${Date.now()}`,
-      ...bookingData,
-      status: "confirmed",
-      createdAt: new Date().toISOString(),
-    };
-    saveBookings([...bookings, newBooking]);
-    return newBooking;
+  const getAvailableTables = async (date, time) => {
+    try {
+      const res = await fetch(`${API_URL}/bookings/available?date=${date}&time=${time}`);
+      const data = await res.json();
+
+      return data.map((t) => {
+        const fullTable = tables.find((table) => table.id === t.id);
+        return fullTable || t;
+      });
+    } catch (error) {
+      console.error("Failed to check availability:", error);
+      return [];
+    }
   };
 
-  const cancelBooking = (bookingId) => {
-    const updated = bookings.map((b) =>
-      b.id === bookingId ? { ...b, status: "cancelled" } : b
-    );
-    saveBookings(updated);
+  const createBooking = async (bookingData) => {
+    try {
+      const res = await fetch(`${API_URL}/bookings`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tableId: bookingData.tableId,
+          userId: bookingData.userId,
+          name: bookingData.name,
+          phone: bookingData.phone,
+          date: bookingData.date,
+          time: bookingData.time,
+          guests: bookingData.guests,
+          notes: bookingData.notes,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        await fetchAllBookings();
+        return { success: true, booking: data.booking };
+      } else {
+        return { success: false, message: data.message };
+      }
+    } catch (error) {
+      return { success: false, message: "Could not connect to server." };
+    }
   };
 
-  // Check: kya yeh booking abhi cancel ki ja sakti hai (2 ghante ka rule)
+  const cancelBooking = async (bookingId) => {
+    try {
+      const res = await fetch(`${API_URL}/bookings/${bookingId}/cancel`, {
+        method: "PATCH",
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        await fetchAllBookings();
+      }
+      return data;
+    } catch (error) {
+      return { success: false, message: "Could not connect to server." };
+    }
+  };
+
   const canCancel = (booking) => {
     const bookingDateTime = new Date(`${booking.date}T${booking.time}`);
     const now = new Date();
@@ -60,8 +116,8 @@ export function TableProvider({ children }) {
     return hoursDiff >= 2;
   };
 
-  const getUserBookings = (email) =>
-    bookings.filter((b) => b.bookedBy === email && b.status === "confirmed");
+  const getUserBookings = (userId) =>
+    bookings.filter((b) => b.userId === userId && b.status === "confirmed");
 
   const getAllBookings = () => bookings.filter((b) => b.status === "confirmed");
 
@@ -76,6 +132,7 @@ export function TableProvider({ children }) {
         canCancel,
         getUserBookings,
         getAllBookings,
+        fetchAllBookings,
       }}
     >
       {children}
